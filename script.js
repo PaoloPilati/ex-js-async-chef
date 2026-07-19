@@ -16,7 +16,25 @@
 // Esempio di output atteso
 // Data di nascita dello chef: 1990-06-15
 
+//Funzione helper (converte res.json in oggetto)
+async function fetchUrl(url) {
+    const response = await fetch(url);
+    const data = await response.json();
 
+    return data;
+}
+
+//Funzione che raccoglie i dati della ricetta
 async function getChefBirthday(id) {
+    const recipeResponse = fetchUrl();
+    const recipe = await recipeResponse.json();
     
 }
+
+getChefBirthday(1)
+    .then((birthday) => {
+        console.log("Data di nascita dello chef:", birthday);
+    })
+    .catch((error) => {
+        console.error("Errore:", error.message);
+    });
