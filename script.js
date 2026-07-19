@@ -26,15 +26,18 @@ async function fetchUrl(url) {
 
 //Funzione che raccoglie i dati della ricetta
 async function getChefBirthday(id) {
-    const recipeResponse = fetchUrl();
-    const recipe = await recipeResponse.json();
+    const recipe = await fetchUrl(`https://dummyjson.com/recipes/${id}`);
+    const userId = recipe.userId;
+    const chefInfo = await fetchUrl(`https://dummyjson.com/users/${userId}`);
+
+    return chefInfo.birthDate;
     
 }
 
 getChefBirthday(1)
     .then((birthday) => {
-        console.log("Data di nascita dello chef:", birthday);
+        console.log("Chef's birthday:", birthday);
     })
     .catch((error) => {
-        console.error("Errore:", error.message);
+        console.error("Error:", error.message);
     });
