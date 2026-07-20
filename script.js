@@ -26,18 +26,45 @@ async function fetchUrl(url) {
 
 //Funzione che raccoglie i dati della ricetta
 async function getChefBirthday(id) {
-    const recipe = await fetchUrl(`https://dummyjson.com/recipes/${id}`);
-    const userId = recipe.userId;
-    const chefInfo = await fetchUrl(`https://dummyjson.com/users/${userId}`);
-
-    return chefInfo.birthDate;
-    
+    try{
+        const recipe = await fetchUrl(`https://dummyjson.com/recipes/${id}`);
+        const userId = recipe.userId;
+        const chefInfo = await fetchUrl(`https://dummyjson.com/users/${userId}`);
+        
+        return chefInfo.birthDate;
+    }catch(error){
+         throw new Error(`Unable to get chef's birthday for recipe id #${id}`);
+    }   
 }
 
-getChefBirthday(1)
-    .then((birthday) => {
-        console.log("Chef's birthday:", birthday);
-    })
-    .catch((error) => {
-        console.error("Error:", error.message);
-    });
+// getChefBirthday(1)
+//     .then((birthday) => {
+//         console.log("Chef's birthday:", birthday);
+//     })
+//     .catch((error) => {
+//         console.error("Error:", error.message);
+//     });
+
+// IIFE 
+(async() => {
+    try{
+        const birthday = await getChefBirthday(1);
+        console.log("Chef's birthday:", birthday)
+        console.log('Code executed!')
+    }catch(error){
+        console.error(error);
+    }finally{
+        console.log("END!!!")
+    }
+})();
+
+
+
+// 🎯 Bonus 1
+// Attualmente, se la prima richiesta non trova una ricetta, la seconda richiesta potrebbe comunque essere eseguita causando errori a cascata.
+
+// Modifica getChefBirthday(id) per intercettare eventuali errori prima di fare la seconda richiesta.
+// 🎯 Bonus 2
+// Utilizza la libreria dayjs per formattare la data di nascita nel formato giorno/mese/anno.
+// Esempio di output atteso con formattazione
+// Data di nascita dello chef: 15/06/1990
