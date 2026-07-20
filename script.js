@@ -19,22 +19,34 @@
 //Funzione helper (converte res.json in oggetto)
 async function fetchUrl(url) {
     const response = await fetch(url);
+    //  if (!response.ok) {
+    //     throw new Error(`HTTP error: ${response.status}`);
+    // } https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
     const data = await response.json();
-
+    
     return data;
 }
 
 //Funzione che raccoglie i dati della ricetta
 async function getChefBirthday(id) {
+    let recipe;
     try{
-        const recipe = await fetchUrl(`https://dummyjson.com/recipes/${id}`);
-        const userId = recipe.userId;
-        const chefInfo = await fetchUrl(`https://dummyjson.com/users/${userId}`);
-        
-        return chefInfo.birthDate;
+        recipe = await fetchUrl(`https://dummyjson.com/recipes/${id}`);
     }catch(error){
-         throw new Error(`Unable to get chef's birthday for recipe id #${id}`);
-    }   
+        console.error(error);
+         throw new Error(`Unable to get recipe #${id}`);
+    }
+    if (recipe.message){
+        throw new Error(recipe.message)
+    }
+    let chef;
+        try{
+            chef = await fetchUrl(`https://dummyjson.com/users/${recipe.userId}`);
+        }catch(error){
+            throw new Error(`Unable to get chef's birthday for chef #${recipe.userId}`);
+        }
+    const chefBirthday = chef.birthDate;
+    return chefBirthday;
 }
 
 // getChefBirthday(1)
@@ -52,7 +64,7 @@ async function getChefBirthday(id) {
         console.log("Chef's birthday:", birthday)
         console.log('Code executed!')
     }catch(error){
-        console.error(error);
+        console.error("Error:", error.message);
     }finally{
         console.log("END!!!")
     }
