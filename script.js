@@ -25,7 +25,6 @@
 // Data di nascita dello chef: 15/06/1990
 
 const dayjs = require('dayjs');
-console.log(dayjs)
 
 //Funzione helper (converte res.json in oggetto)
 async function fetchUrl(url) {
@@ -60,7 +59,7 @@ async function getChefBirthday(id) {
             throw new Error(chef.message)
         }
 
-    const chefBirthday = chef.birthDate;
+    const chefBirthday = dayjs(chef.birthDate).format("DD/MM/YYYY");
     return chefBirthday;
 }
 
@@ -75,8 +74,8 @@ async function getChefBirthday(id) {
 // IIFE 
 (async() => {
     try{
-        const birthday = await getChefBirthday(1);
-        console.log("Chef's birthday:", dayjs(birthday).format("DD/MM/YYYY"))
+        const birthday = await getChefBirthday(3);
+        console.log("Chef's birthday:", birthday)
         console.log('Code executed!')
     }catch(error){
         console.error("Error:", error.message);
