@@ -24,6 +24,9 @@
 // Esempio di output atteso con formattazione
 // Data di nascita dello chef: 15/06/1990
 
+const dayjs = require('dayjs');
+console.log(dayjs)
+
 //Funzione helper (converte res.json in oggetto)
 async function fetchUrl(url) {
     const response = await fetch(url);
@@ -73,7 +76,7 @@ async function getChefBirthday(id) {
 (async() => {
     try{
         const birthday = await getChefBirthday(1);
-        console.log("Chef's birthday:", birthday)
+        console.log("Chef's birthday:", dayjs(birthday).format("DD/MM/YYYY"))
         console.log('Code executed!')
     }catch(error){
         console.error("Error:", error.message);

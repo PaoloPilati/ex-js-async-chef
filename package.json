@@ -1,0 +1,23 @@
+{
+  "name": "ex-js-async-chef",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/PaoloPilati/ex-js-async-chef#readme",
+  "bugs": {
+    "url": "https://github.com/PaoloPilati/ex-js-async-chef/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaoloPilati/ex-js-async-chef.git"
+  },
+  "license": "ISC",
+  "author": "PP",
+  "type": "commonjs",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.21"
+  }
+}
