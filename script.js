@@ -15,6 +15,14 @@
 //   .catch(error => console.error("Errore:", error.message));
 // Esempio di output atteso
 // Data di nascita dello chef: 1990-06-15
+// 🎯 Bonus 1
+// Attualmente, se la prima richiesta non trova una ricetta, la seconda richiesta potrebbe comunque essere eseguita causando errori a cascata.
+
+// Modifica getChefBirthday(id) per intercettare eventuali errori prima di fare la seconda richiesta.
+// 🎯 Bonus 2
+// Utilizza la libreria dayjs per formattare la data di nascita nel formato giorno/mese/anno.
+// Esempio di output atteso con formattazione
+// Data di nascita dello chef: 15/06/1990
 
 //Funzione helper (converte res.json in oggetto)
 async function fetchUrl(url) {
@@ -43,8 +51,12 @@ async function getChefBirthday(id) {
         try{
             chef = await fetchUrl(`https://dummyjson.com/users/${recipe.userId}`);
         }catch(error){
+            console.error(error);
             throw new Error(`Unable to get chef's birthday for chef #${recipe.userId}`);
+        }if(chef.message) {
+            throw new Error(chef.message)
         }
+
     const chefBirthday = chef.birthDate;
     return chefBirthday;
 }
@@ -70,13 +82,3 @@ async function getChefBirthday(id) {
     }
 })();
 
-
-
-// 🎯 Bonus 1
-// Attualmente, se la prima richiesta non trova una ricetta, la seconda richiesta potrebbe comunque essere eseguita causando errori a cascata.
-
-// Modifica getChefBirthday(id) per intercettare eventuali errori prima di fare la seconda richiesta.
-// 🎯 Bonus 2
-// Utilizza la libreria dayjs per formattare la data di nascita nel formato giorno/mese/anno.
-// Esempio di output atteso con formattazione
-// Data di nascita dello chef: 15/06/1990
